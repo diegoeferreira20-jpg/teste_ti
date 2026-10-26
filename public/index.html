@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Central de TI</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--ink:#17202b;--mute:#5d6b7c;--line:#d9dfe7;--acc:#0e6f68;--acc-ink:#fff;--bad:#b3261e;--warn:#9a5b00;--ok:#1b6b3a;--side:#17202b;--side-ink:#e6ebf1;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f151c;--panel:#18212b;--ink:#e6ebf1;--mute:#93a1b2;--line:#2b3744;--acc:#3fb5aa;--acc-ink:#07201d;--bad:#ff8a80;--warn:#f0b35a;--ok:#6fd08c;--side:#0a0f14;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151c;--panel:#18212b;--ink:#e6ebf1;--mute:#93a1b2;--line:#2b3744;--acc:#3fb5aa;--acc-ink:#07201d;--bad:#ff8a80;--warn:#f0b35a;--ok:#6fd08c;--side:#0a0f14;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif;display:flex;min-height:100vh}
+aside{width:220px;background:var(--side);color:var(--side-ink);padding:18px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;flex:none}
+aside h1{font-size:17px;margin:0 0 14px 6px;font-weight:600}
+aside button.nav{all:unset;cursor:pointer;padding:8px 10px;border-radius:6px;color:var(--side-ink)}
+aside button.nav:hover{background:#ffffff14}aside button.nav.on{background:var(--acc);color:var(--acc-ink);font-weight:500}
+aside select{background:#ffffff14;color:var(--side-ink);border:1px solid #ffffff30}
+aside label{font-size:12px;opacity:.7;margin:12px 6px 2px}
+main{flex:1;min-width:0;padding:24px 28px;max-width:1100px}
+h2{margin:0;font-size:22px;font-weight:600}
+.bar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+input,select,textarea,button{font:inherit;color:var(--ink)}
+input,select,textarea{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%}
+.tools input,.tools select{width:auto}
+textarea{min-height:80px;resize:vertical}
+button.b{background:var(--acc);color:var(--acc-ink);border:0;border-radius:6px;padding:8px 14px;cursor:pointer;font-weight:500}
+button.g{background:transparent;border:1px solid var(--line);border-radius:6px;padding:8px 14px;cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.num{font-size:30px;font-weight:600;line-height:1.1}.lbl{color:var(--mute);font-size:13px}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{color:var(--mute);font-weight:500;font-size:13px}tr.row{cursor:pointer}tr.row:hover td{background:var(--bg)}
+.tag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.Crítica,.late{color:var(--bad)}.Alta{color:var(--warn)}.Média{color:var(--mute)}.Baixa{color:var(--ok)}.ok{color:var(--ok)}
+.hbar{display:grid;grid-template-columns:110px 1fr 30px;gap:8px;align-items:center;margin:6px 0}
+.hbar i{display:block;height:12px;background:var(--acc);border-radius:3px}
+dialog{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;width:min(620px,94vw);padding:20px;max-height:90vh}
+#login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:5}#login[hidden]{display:none}#login .card{width:min(360px,92vw)}
+dialog::backdrop{background:#0008}
+.f{display:grid;gap:4px;margin-bottom:10px}.f span{font-size:13px;color:var(--mute)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cm{border-left:3px solid var(--line);padding:2px 10px;margin:8px 0}.cm small{color:var(--mute)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:8px}summary{cursor:pointer;font-weight:500}
+.empty{padding:28px;text-align:center;color:var(--mute)}
+@media(max-width:760px){body{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center}aside h1{width:100%;margin:0}aside select,aside label{margin-top:0}main{padding:16px}.two{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){dialog[open]{animation:o .15s ease-out}@keyframes o{from{opacity:0;transform:translateY(6px)}}}
+</style>
+</head>
+<body>
+<aside>
+<h1>Central de TI</h1>
+<button class="nav" data-v="dash">Painel</button>
+<button class="nav" data-v="tickets">Chamados</button>
+<button class="nav" data-v="assets">Ativos</button>
+<button class="nav" data-v="kb">Base de conhecimento</button>
+<button class="nav" data-v="users">Usuários</button>
+<div id="who" style="margin-top:auto;font-size:13px"></div><button class="g" id="out" style="color:inherit">Sair</button>
+</aside>
+<main id="app"></main>
+<div id="login"><div class="card"><h2>Central de TI</h2><br><label class="f"><span>E-mail</span><input id="le" type="email" autocomplete="username"></label><label class="f"><span>Senha</span><input id="lp" type="password" autocomplete="current-password"></label><p id="lerr" class="late"></p><button class="b" onclick="login()">Entrar</button></div></div>
+<dialog id="dlg"></dialog>
+<script>
+const K="helpdesk-v1",$=s=>document.querySelector(s),H=3600e3;
+const ST=["Novo","Em atendimento","Aguardando","Resolvido","Fechado"],PR=["Crítica","Alta","Média","Baixa"],SLA={Crítica:4,Alta:8,Média:24,Baixa:72};
+const CAT=["Hardware","Software","Rede","Acesso e senha","Impressora","Outro"],AT=["Computador","Monitor","Impressora","Rede","Licença","Celular"];
+const now=Date.now();
+const seed=()=>({
+users:[{id:1,name:"Ana Souza",role:"Admin",email:"ana@empresa.com"},{id:2,name:"Bruno Lima",role:"Técnico",email:"bruno@empresa.com"},{id:3,name:"Carla Dias",role:"Solicitante",email:"carla@empresa.com"},{id:4,name:"Diego Reis",role:"Solicitante",email:"diego@empresa.com"}],
+assets:[{id:1,name:"NB-0142",type:"Computador",serial:"5CG1234XYZ",user:3,status:"Em uso"},{id:2,name:"MON-0077",type:"Monitor",serial:"CN0A99",user:3,status:"Em uso"},{id:3,name:"IMP-RH-01",type:"Impressora",serial:"VND3F001",user:4,status:"Em manutenção"},{id:4,name:"Office 365 E3",type:"Licença",serial:"50 licenças",user:0,status:"Em uso"}],
+kb:[{id:1,title:"Como redefinir minha senha",body:"Acesse o portal de senha, informe seu e-mail corporativo e siga o link recebido. Se não chegar em 5 minutos, abra um chamado em Acesso e senha."},{id:2,title:"Impressora não imprime",body:"Verifique se está ligada e com papel. Remova trabalhos travados na fila e reinicie o spooler. Persistindo, abra um chamado em Impressora."}],
+tickets:[{id:1,title:"Notebook não liga",desc:"Após queda de energia o equipamento não dá sinal de vida.",cat:"Hardware",pr:"Alta",st:"Em atendimento",req:3,tech:2,asset:1,at:now-5*H,cm:[{u:2,t:now-4*H,x:"Recebido. Vou testar a fonte e a bateria."}]},{id:2,title:"Sem acesso ao sistema financeiro",desc:"Aparece erro de permissão ao entrar.",cat:"Acesso e senha",pr:"Média",st:"Novo",req:4,tech:0,asset:0,at:now-30*H,cm:[]},{id:3,title:"Impressora do RH com papel preso",desc:"Já tentei retirar, mas continua travando.",cat:"Impressora",pr:"Baixa",st:"Resolvido",req:4,tech:2,asset:3,at:now-60*H,cm:[]}],
+me:1,seq:{t:4,a:5,k:3,u:5}});
+let db={users:[],assets:[],kb:[],tickets:[],me:0};
+
+let view="dash",q="",fs="";
+const e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const U=id=>db.users.find(u=>u.id==id),me=()=>U(db.me),staff=()=>me().role!="Solicitante",admin=()=>me().role=="Admin";
+const fd=t=>new Date(t).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"});
+const due=t=>t.at+SLA[t.pr]*H,late=t=>!["Resolvido","Fechado"].includes(t.st)&&Date.now()>due(t);
+const mine=()=>staff()?db.tickets:db.tickets.filter(t=>t.req==db.me);
+const opts=(a,s)=>a.map(x=>`<option ${x==s?"selected":""}>${e(x)}</option>`).join("");
+const uopts=(l,s,none)=>(none?`<option value="0">${none}</option>`:"")+l.map(u=>`<option value="${u.id}" ${u.id==s?"selected":""}>${e(u.name)}</option>`).join("");
+const sla=t=>late(t)?`<span class="tag late">Vencido</span>`:["Resolvido","Fechado"].includes(t.st)?`<span class="tag ok">Concluído</span>`:`<span class="tag ok">Até ${fd(due(t))}</span>`;
+
+function dash(){const l=mine(),open=l.filter(t=>!["Resolvido","Fechado"].includes(t.st));
+const max=Math.max(1,...ST.map(s=>l.filter(t=>t.st==s).length));
+return`<div class="bar"><h2>Painel</h2></div>
+<div class="grid"><div class="card"><div class="num">${open.length}</div><div class="lbl">Chamados abertos</div></div>
+<div class="card"><div class="num late">${l.filter(late).length}</div><div class="lbl">Com SLA vencido</div></div>
+<div class="card"><div class="num">${l.filter(t=>t.st=="Novo"&&!t.tech).length}</div><div class="lbl">Sem técnico</div></div>
+<div class="card"><div class="num">${db.assets.length}</div><div class="lbl">Ativos cadastrados</div></div></div>
+<div class="card"><b>Chamados por status</b>${ST.map(s=>{const n=l.filter(t=>t.st==s).length;return`<div class="hbar"><span>${s}</span><i style="width:${n/max*100}%"></i><span>${n}</span></div>`}).join("")}</div>`}
+
+function tickets(){let l=mine().filter(t=>(!fs||t.st==fs)&&(t.title+t.desc+t.id).toLowerCase().includes(q.toLowerCase())).sort((a,b)=>b.at-a.at);
+return`<div class="bar"><h2>Chamados</h2><div class="tools"><input id="q" placeholder="Buscar chamado" value="${e(q)}"><select id="fs"><option value="">Todos os status</option>${opts(ST,fs)}</select><button class="b" onclick="newT()">Abrir chamado</button></div></div>
+<div class="scroll">${l.length?`<table><tr><th>#</th><th>Título</th><th>Status</th><th>Prioridade</th><th>Solicitante</th><th>Técnico</th><th>SLA</th></tr>${l.map(t=>`<tr class="row" onclick="openT(${t.id})"><td>${t.id}</td><td>${e(t.title)}</td><td>${t.st}</td><td><span class="tag ${t.pr}">${t.pr}</span></td><td>${e(U(t.req)?.name)}</td><td>${e(U(t.tech)?.name||"—")}</td><td>${sla(t)}</td></tr>`).join("")}</table>`:`<div class="empty card">Nenhum chamado encontrado. Use “Abrir chamado” para criar o primeiro.</div>`}</div>`}
+
+function newT(){$("#dlg").innerHTML=`<h2>Abrir chamado</h2><br>
+<label class="f"><span>Título</span><input id="n1"></label>
+<label class="f"><span>Descrição</span><textarea id="n2"></textarea></label>
+<div class="two"><label class="f"><span>Categoria</span><select id="n3">${opts(CAT)}</select></label><label class="f"><span>Prioridade</span><select id="n4">${opts(PR,"Média")}</select></label></div>
+<label class="f"><span>Ativo relacionado</span><select id="n5">${uopts(db.assets.filter(a=>staff()||a.user==db.me).map(a=>({id:a.id,name:a.name+" ("+a.type+")"})),0,"Nenhum")}</select></label>
+<div class="tools"><button class="b" onclick="addT()">Abrir chamado</button><button class="g" onclick="$('#dlg').close()">Cancelar</button></div>`;$("#dlg").showModal()}
+function addT(){const t=$("#n1").value.trim();if(!t){$("#n1").focus();return}
+db.tickets.push({id:db.seq.t++,title:t,desc:$("#n2").value,cat:$("#n3").value,pr:$("#n4").value,st:"Novo",req:db.me,tech:0,asset:+$("#n5").value,at:Date.now(),cm:[]});save();$("#dlg").close();view="tickets";draw()}
+
+function openT(id){const t=db.tickets.find(x=>x.id==id),s=staff();
+$("#dlg").innerHTML=`<h2>#${t.id} ${e(t.title)}</h2><p class="lbl">${e(U(t.req)?.name)} · ${fd(t.at)} · ${t.cat}${t.asset?" · "+e(db.assets.find(a=>a.id==t.asset)?.name):""}</p>
+<p>${e(t.desc)||"<i>Sem descrição</i>"}</p>
+<div class="two"><label class="f"><span>Status</span><select id="t1" ${s?"":"disabled"}>${opts(ST,t.st)}</select></label>
+<label class="f"><span>Prioridade</span><select id="t2" ${s?"":"disabled"}>${opts(PR,t.pr)}</select></label>
+<label class="f"><span>Técnico</span><select id="t3" ${s?"":"disabled"}>${uopts(db.users.filter(u=>u.role!="Solicitante"),t.tech,"Não atribuído")}</select></label>
+<div class="f"><span>SLA</span>${sla(t)}</div></div>
+<b>Histórico</b>${t.cm.map(c=>`<div class="cm"><small>${e(U(c.u)?.name)} · ${fd(c.t)}</small><br>${e(c.x)}</div>`).join("")||`<div class="lbl">Nenhum comentário ainda.</div>`}
+<label class="f" style="margin-top:10px"><span>Novo comentário</span><textarea id="t4"></textarea></label>
+<div class="tools"><button class="b" onclick="upT(${t.id})">Salvar alterações</button><button class="g" onclick="$('#dlg').close()">Fechar</button></div>`;$("#dlg").showModal()}
+function upT(id){const t=db.tickets.find(x=>x.id==id),c=$("#t4").value.trim();
+if(staff()){t.st=$("#t1").value;t.pr=$("#t2").value;t.tech=+$("#t3").value;if(t.tech&&t.st=="Novo")t.st="Em atendimento"}
+if(c)t.cm.push({u:db.me,t:Date.now(),x:c});save();$("#dlg").close();draw()}
+
+function assets(){const l=staff()?db.assets:db.assets.filter(a=>a.user==db.me);
+return`<div class="bar"><h2>Ativos</h2>${staff()?`<button class="b" onclick="newA()">Cadastrar ativo</button>`:""}</div>
+<div class="scroll">${l.length?`<table><tr><th>Nome</th><th>Tipo</th><th>Série / detalhe</th><th>Responsável</th><th>Status</th>${staff()?"<th></th>":""}</tr>${l.map(a=>`<tr><td>${e(a.name)}</td><td>${a.type}</td><td>${e(a.serial)}</td><td>${e(U(a.user)?.name||"—")}</td><td>${a.status}</td>${staff()?`<td><button class="g" onclick="delA(${a.id})">Remover</button></td>`:""}</tr>`).join("")}</table>`:`<div class="empty card">Nenhum ativo vinculado a você.</div>`}</div>`}
+function newA(){$("#dlg").innerHTML=`<h2>Cadastrar ativo</h2><br><div class="two"><label class="f"><span>Nome</span><input id="a1"></label><label class="f"><span>Tipo</span><select id="a2">${opts(AT)}</select></label>
+<label class="f"><span>Série / detalhe</span><input id="a3"></label><label class="f"><span>Status</span><select id="a4">${opts(["Em uso","Em estoque","Em manutenção","Baixado"])}</select></label></div>
+<label class="f"><span>Responsável</span><select id="a5">${uopts(db.users,0,"Sem responsável")}</select></label>
+<div class="tools"><button class="b" onclick="addA()">Cadastrar ativo</button><button class="g" onclick="$('#dlg').close()">Cancelar</button></div>`;$("#dlg").showModal()}
+function addA(){const n=$("#a1").value.trim();if(!n){$("#a1").focus();return}db.assets.push({id:db.seq.a++,name:n,type:$("#a2").value,serial:$("#a3").value,status:$("#a4").value,user:+$("#a5").value});save();$("#dlg").close();draw()}
+function delA(id){if(confirm("Remover este ativo?")){db.assets=db.assets.filter(a=>a.id!=id);save();draw()}}
+
+function kb(){const l=db.kb.filter(k=>(k.title+k.body).toLowerCase().includes(q.toLowerCase()));
+return`<div class="bar"><h2>Base de conhecimento</h2><div class="tools"><input id="q" placeholder="Buscar artigo" value="${e(q)}">${staff()?`<button class="b" onclick="newK()">Novo artigo</button>`:""}</div></div>
+${l.map(k=>`<details><summary>${e(k.title)}</summary><p>${e(k.body)}</p>${staff()?`<button class="g" onclick="delK(${k.id})">Remover</button>`:""}</details>`).join("")||`<div class="empty card">Nenhum artigo encontrado.</div>`}`}
+function newK(){$("#dlg").innerHTML=`<h2>Novo artigo</h2><br><label class="f"><span>Título</span><input id="k1"></label><label class="f"><span>Conteúdo</span><textarea id="k2"></textarea></label>
+<div class="tools"><button class="b" onclick="addK()">Publicar artigo</button><button class="g" onclick="$('#dlg').close()">Cancelar</button></div>`;$("#dlg").showModal()}
+function addK(){const t=$("#k1").value.trim();if(!t){$("#k1").focus();return}db.kb.push({id:db.seq.k++,title:t,body:$("#k2").value});save();$("#dlg").close();draw()}
+function delK(id){db.kb=db.kb.filter(k=>k.id!=id);save();draw()}
+
+function users(){if(!admin())return`<div class="bar"><h2>Usuários</h2></div><div class="empty card">Só administradores gerenciam usuários.</div>`;
+return`<div class="bar"><h2>Usuários</h2><button class="b" onclick="newU()">Adicionar usuário</button></div>
+<div class="scroll"><table><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Chamados</th></tr>${db.users.map(u=>`<tr><td>${e(u.name)}</td><td>${e(u.email)}</td><td>${u.role}</td><td>${db.tickets.filter(t=>t.req==u.id).length}</td></tr>`).join("")}</table></div>`}
+function newU(){$("#dlg").innerHTML=`<h2>Adicionar usuário</h2><br><label class="f"><span>Nome</span><input id="u1"></label><label class="f"><span>E-mail</span><input id="u2" type="email"></label><label class="f"><span>Perfil</span><select id="u3">${opts(["Solicitante","Técnico","Admin"])}</select></label>
+<div class="tools"><button class="b" onclick="addU()">Adicionar usuário</button><button class="g" onclick="$('#dlg').close()">Cancelar</button></div>`;$("#dlg").showModal()}
+function addU(){const n=$("#u1").value.trim();if(!n){$("#u1").focus();return}db.users.push({id:db.seq.u++,name:n,email:$("#u2").value,role:$("#u3").value});save();$("#dlg").close();draw()}
+
+function draw(){$("#who").textContent=me().name+" · "+me().role;
+document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("on",b.dataset.v==view));
+$("#app").innerHTML={dash,tickets,assets,kb,users}[view]();
+const qi=$("#q");if(qi)qi.oninput=()=>{q=qi.value;const p=qi.selectionStart;draw();const n=$("#q");n.focus();n.setSelectionRange(p,p)};
+const f=$("#fs");if(f)f.onchange=()=>{fs=f.value;draw()}}
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{view=b.dataset.v;q="";draw()});
+
+async function api(m,u,b){const r=await fetch(u,{method:m,headers:{"Content-Type":"application/json"},body:b?JSON.stringify(b):undefined}),j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||"Erro");return j}
+async function load(){Object.assign(db,await api("GET","/api/data"));draw()}
+const run=async f=>{try{await f()}catch(x){alert(x.message)}};
+const ok=async()=>{$("#dlg").close();await load()};
+function addT(){const t=$("#n1").value.trim();if(!t){$("#n1").focus();return}run(async()=>{await api("POST","/api/tickets",{title:t,desc:$("#n2").value,cat:$("#n3").value,pr:$("#n4").value,asset:+$("#n5").value});view="tickets";await ok()})}
+function upT(id){run(async()=>{await api("PUT","/api/tickets/"+id,{st:$("#t1").value,pr:$("#t2").value,tech:+$("#t3").value,comment:$("#t4").value.trim()});await ok()})}
+function addA(){run(async()=>{await api("POST","/api/assets",{name:$("#a1").value.trim(),type:$("#a2").value,serial:$("#a3").value,status:$("#a4").value,user:+$("#a5").value});await ok()})}
+function delA(id){if(confirm("Remover este ativo?"))run(async()=>{await api("DELETE","/api/assets/"+id);await load()})}
+function addK(){run(async()=>{await api("POST","/api/kb",{title:$("#k1").value.trim(),body:$("#k2").value});await ok()})}
+function delK(id){run(async()=>{await api("DELETE","/api/kb/"+id);await load()})}
+function newU(){$("#dlg").innerHTML=`<h2>Adicionar usuário</h2><br><label class="f"><span>Nome</span><input id="u1"></label><label class="f"><span>E-mail</span><input id="u2" type="email"></label><label class="f"><span>Senha inicial (6+ caracteres)</span><input id="u4" type="password"></label><label class="f"><span>Perfil</span><select id="u3">${opts(["Solicitante","Técnico","Admin"])}</select></label><div class="tools"><button class="b" onclick="addU()">Adicionar usuário</button><button class="g" onclick="$('#dlg').close()">Cancelar</button></div>`;$("#dlg").showModal()}
+function addU(){run(async()=>{await api("POST","/api/users",{name:$("#u1").value.trim(),email:$("#u2").value.trim(),pass:$("#u4").value,role:$("#u3").value});await ok()})}
+async function boot(){try{await load();$("#login").hidden=true}catch(x){$("#login").hidden=false}}
+async function login(){try{await api("POST","/api/login",{email:$("#le").value.trim(),pass:$("#lp").value});$("#lerr").textContent="";boot()}catch(x){$("#lerr").textContent=x.message}}
+$("#out").onclick=async()=>{await api("POST","/api/logout");location.reload()};
+$("#lp").onkeydown=ev=>{if(ev.key==="Enter")login()};
+boot();
+</script>
+</body>
+</html>
